@@ -16,3 +16,5 @@ New-AzSubscriptionDeployment -name $deploymentNameBuild -namePrefix $namePrefix 
 
 Write-Host "Release"
 .\release\deploy-custom-world-to-azure.ps1 -subscriptionId $subscriptionId -resourceGroup $resourceGroup -fileShare $fileShare -aciName $aciName -folderNameWorld $folderNameWorld
+
+Write-Host "Finished deployment"
