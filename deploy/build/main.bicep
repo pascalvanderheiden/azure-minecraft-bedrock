@@ -6,13 +6,13 @@ targetScope = 'subscription'
 param namePrefix string
 param location string = deployment().location
 // Set start and end time for Minecraft Server (ex. after school only)
-param timeZone string = 'W. Europe Standard Time'
-param startTime string = '03:00PM'
-param endTime string = '10:00PM'
+param timeZone string
+param startTime string
+param endTime string
 // Set Minecraft Bedrock Environement variables
-param gameMode string = 'survival'
-param gameDifficulty string = 'normal'
-param gameAllowCheats string = 'true'
+param gameMode string
+param gameDifficulty string
+param gameAllowCheats string
 
 var resourceGroup = '${namePrefix}-rg'
 var aciName = '${namePrefix}-aci'
@@ -59,14 +59,6 @@ module autoAccModule '../build/automation.bicep' = {
         runbookType: 'PowerShell'
         logProgress: true
         logVerbose: false
-        scheduleName: 'start-aci-schedule'
-        scheduleJobName: 'start-aci-schedule'
-        startTime: startTime
-        timeZone: timeZone
-        parameters: {
-          resourceGroup: resourceGroup
-          aciName: aciName
-        }
       }
       {
         runbookName: 'Stop-ACI'
@@ -74,16 +66,36 @@ module autoAccModule '../build/automation.bicep' = {
         runbookType: 'PowerShell'
         logProgress: true
         logVerbose: false
+      }
+    ]
+    schedules: [
+      {
+        scheduleName: 'start-aci-schedule'
+        startTime: startTime
+        timeZone: timeZone
+      }
+      {
         scheduleName: 'stop-aci-schedule'
-        scheduleJobName: 'stop-aci-schedule'
         startTime: endTime
         timeZone: timeZone
-        parameters: {
-          resourceGroup: resourceGroup
-          aciName: aciName
-        }
       }
-    ]        
+    ]    
+    jobschedules: [
+      {
+        scheduleJobName: 'start-aci-schedule'
+        runbookName: 'Start-ACI'
+        scheduleName: 'start-aci-schedule'
+        resourceGroup: resourceGroup
+        aciName: aciName
+      }
+      {
+        scheduleJobName: 'stop-aci-schedule'
+        runbookName: 'Stop-ACI'
+        scheduleName: 'stop-aci-schedule'
+        resourceGroup: resourceGroup
+        aciName: aciName
+      }
+    ]    
   }
 }
 

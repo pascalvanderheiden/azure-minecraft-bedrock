@@ -1,0 +1,84 @@
+name: Release
+
+env:
+  # folderNameWorld: ${{ github.event.inputs.folderNameWorld }}
+  resourceGroup: '${{ secrets.PREFIX }}-rg'
+  aciName: '${{ secrets.PREFIX }}-aci'
+  fileShare: '${{ secrets.PREFIX }}-share'
+  folderNameWorld: 'Bedrock level'
+  customWorldPath: '.\deploy\release\worlds\${{ env.folderNameWorld }}'
+  fileSharePathWorlds: '${{ env.fileShare }}/worlds/Bedrock Level'
+
+on:
+  # Only trigger, when a new world has been pushed
+  push:
+    branches: [ main ]
+    paths:
+      - release/worlds/**
+
+  # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      # LOGIN TO AZURE. THE LOGGED IN SESSION IS ACTIVE TILL A LOGOUT ACTION IS CALLED (OR THE JOB FINISHED)
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true 
+
+      # SET CORRECT AZURE CONTEXT
+      - name: 'Set context to subscription'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            Set-AzContext -Subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          azPSVersion: "latest"
+
+      - name: 'Stop Azure Container Instance'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            az container stop -n '${{ env.aciName }}' -g '${{ env.resourceGroup }}'
+          azPSVersion: "latest"
+
+      - name: 'Retrieve Storage Account Name & Key Name'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            $storageAccountName = az storage account list -g '${{ env.resourceGroup }}' --subscription '${{ secrets.AZURE_SUBSCRIPTION_ID }}' --query '[].{Name:name}' -o tsv
+            $storageKey = az storage account keys list -g '${{ env.resourceGroup }}' -n $storageAccountName --query '[0].{Name:value}' -o tsv
+            echo "SA_NAME=$storageAccountName" >> $Env:GITHUB_ENV
+            echo "SA_KEY=$storageKey" >> $Env:GITHUB_ENV
+          azPSVersion: "latest"
+
+      - name: 'Delete all files in default folder (Bedrock level)'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            az storage file delete-batch --account-key '${{ env.SA_KEY }}' --account-name '${{ env.SA_NAME }}' --source '${{ env.fileSharePathWorlds }}'
+          azPSVersion: "latest"
+
+      - name: 'Upload all files in custom folder to Bedrock level folder'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            az storage file upload-batch --destination '${{ env.fileSharePathWorlds }}' --source '${{ env.customWorldPath }}' --account-name '${{ env.SA_NAME }}' --account-key '${{ env.SA_KEY }}'
+          azPSVersion: "latest"
+
+      - name: 'Start Azure Container Instance'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            az container start -n '${{ env.aciName }}' -g '${{ env.resourceGroup }}'
+          azPSVersion: "latest"
+
+      # LOGOUT
+      - name: logout
+        run: |
+          az logout

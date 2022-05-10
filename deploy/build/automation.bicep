@@ -18,17 +18,31 @@ param modules array = []
   runbookType: 'Runbook type: Graph, Graph PowerShell, Graph PowerShellWorkflow, PowerShell, PowerShell Workflow, Script'
   logProgress: 'Enable progress logs'
   logVerbose: 'Enable verbose logs'
+})
+param runbooks array = []
+
+@description('Schedules to import into automation account')
+@metadata({
   scheduleName: 'Schedule name'
-  scheduleJobName: 'Schedule job name'
   startTime: 'Start time'
   timeZone: 'Time zone'
 })
-param runbooks array = []
+param schedules array = []
+
+@description('Job Schedules to import into automation account')
+@metadata({
+  scheduleJobName: 'Job Schedule name'
+  runbookName: 'Runbook name'
+  scheduleName: 'Schedule name'
+  resourceGroup: 'Resource group parameter'
+  aciName: 'ACI name parameter'
+})
+param jobschedules array = []
 
 var automationAccountName = '${namePrefix}-aa'
 var sku = 'Free'
 var enableDeleteLock = false
-var lockName = '${automationAccount.name}-lck'
+var lockName = '${namePrefix}-aa-lck'
 
 resource automationAccount 'Microsoft.Automation/automationAccounts@2020-01-13-preview' = {
   name: automationAccountName
@@ -76,26 +90,30 @@ resource lock 'Microsoft.Authorization/locks@2016-09-01' = if (enableDeleteLock)
   }
 }
 
-resource schedule 'Microsoft.Automation/automationAccounts/schedules@2020-01-13-preview' = [for runbook in runbooks: {
+resource schedule 'Microsoft.Automation/automationAccounts/schedules@2020-01-13-preview' = [for schedule in schedules: {
   parent: automationAccount
-  name: runbook.scheduleName
+  name: schedule.scheduleName
   properties: {
     frequency: 'Day'
     interval: 1
-    startTime: runbook.startTime
-    timeZone: runbook.timeZone
+    startTime: schedule.startTime
+    timeZone: schedule.timeZone
   }
 }]
 
-resource jobSchedule 'Microsoft.Automation/automationAccounts/jobSchedules@2020-01-13-preview' = [for runbook in runbooks: {
+resource jobSchedule 'Microsoft.Automation/automationAccounts/jobSchedules@2020-01-13-preview' = [for jobschedule in jobschedules: {
   parent: automationAccount
-  name: runbook.scheduleJobName
+  name: guid('${jobschedule.scheduleJobName}')
   properties: {
     runbook: {
-      name: runbook.runbookName
+      name: jobschedule.runbookName
     }
     schedule: {
-      name: runbook.scheduleName
+      name: jobschedule.scheduleName
+    }
+    parameters: {
+      resourceGroup: jobschedule.resourceGroup
+      aciName: jobschedule.aciName
     }
   }
 }]
