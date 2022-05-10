@@ -55,7 +55,7 @@ module autoAccModule '../build/automation.bicep' = {
     runbooks: [
       {
         runbookName: 'Start-ACI'
-        runbookUri: 'https://github.com/pascalvanderheiden/azure-minecraft-bedrock/blob/main/deploy/build/start-aci.ps1'
+        runbookUri: 'https://raw.githubusercontent.com/pascalvanderheiden/azure-minecraft-bedrock/main/deploy/build/start-aci.ps1'
         runbookType: 'PowerShell'
         logProgress: true
         logVerbose: false
@@ -70,7 +70,7 @@ module autoAccModule '../build/automation.bicep' = {
       }
       {
         runbookName: 'Stop-ACI'
-        runbookUri: 'https://github.com/pascalvanderheiden/azure-minecraft-bedrock/blob/main/deploy/build/stop-aci.ps1'
+        runbookUri: 'https://raw.githubusercontent.com/pascalvanderheiden/azure-minecraft-bedrock/main/deploy/build/stop-aci.ps1'
         runbookType: 'PowerShell'
         logProgress: true
         logVerbose: false
