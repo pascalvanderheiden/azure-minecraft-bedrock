@@ -95,7 +95,7 @@ $folderNameWorld = "Bedrock level"
 * Generate a Service Principal
 
 ```ps1
-az ad sp create-for-rbac -n <name_sp> --role Contributor --sdk-auth
+az ad sp create-for-rbac -n <name_sp> --role Contributor --sdk-auth --scopes /subscriptions/<subscription_id>
 ```
 
 Copy the json output of this command.
