@@ -5,7 +5,7 @@ env:
   # location: ${{ github.event.inputs.location }}
   deploymentNameBuild: 'deployMinecraftBedrock'
   buildBicepPath: './deploy/build/main.bicep'
-  $timeZone: 'Europe/Amsterdam'
+  timeZone: 'Europe/Amsterdam'
   startTime: '15:00'
   endTime: '22:00'
   gameMode: 'survival'
