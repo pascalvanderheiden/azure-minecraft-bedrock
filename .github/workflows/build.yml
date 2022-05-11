@@ -3,7 +3,7 @@ name: Build
 env:
   # deploymentNameBuild: ${{ github.event.inputs.deploymentNameBuild }}
   # location: ${{ github.event.inputs.location }}
-  deploymentNameBuild: 'deployMinecraftBedrock'
+  deploymentNameBuild: 'deployBedrock'
   buildBicepPath: './deploy/build/main.bicep'
   timeZone: 'Europe/Amsterdam'
   startTime: '15:00'
