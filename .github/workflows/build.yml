@@ -5,7 +5,7 @@ env:
   # location: ${{ github.event.inputs.location }}
   deploymentNameBuild: 'deployBedrock'
   buildBicepPath: './deploy/build/main.bicep'
-  # buildArmPath: './deploy/build/main.json'
+  buildArmPath: './deploy/build/main.json'
   timeZone: 'Europe/Amsterdam'
   startTime: '13:00'
   endTime: '20:00'
@@ -57,7 +57,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            New-AzSubscriptionDeployment -name '${{ env.deploymentNameBuild }}' -namePrefix '${{ secrets.PREFIX }}' -location '${{ secrets.LOCATION }}' -timeZone '${{ env.timeZone }}' -startTime '${{ env.startTime }}' -endTime '${{ env.endTime }}' -gameMode '${{ env.gameMode }}' -gameDifficulty '${{ env.gameDifficulty }}' -gameAllowCheats '${{ env.gameAllowCheats }}' -TemplateFile '${{ env.buildBicepPath }}'
+            New-AzSubscriptionDeployment -name '${{ env.deploymentNameBuild }}' -namePrefix '${{ secrets.PREFIX }}' -location '${{ secrets.LOCATION }}' -timeZone '${{ env.timeZone }}' -startTime '${{ env.startTime }}' -endTime '${{ env.endTime }}' -gameMode '${{ env.gameMode }}' -gameDifficulty '${{ env.gameDifficulty }}' -gameAllowCheats '${{ env.gameAllowCheats }}' -TemplateFile '${{ env.buildArmPath }}'
           azPSVersion: "latest"
 
       # LOGOUT
