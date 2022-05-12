@@ -103,7 +103,7 @@ resource schedule 'Microsoft.Automation/automationAccounts/schedules@2020-01-13-
 
 resource jobSchedule 'Microsoft.Automation/automationAccounts/jobSchedules@2020-01-13-preview' = [for jobschedule in jobschedules: {
   parent: automationAccount
-  name: jobschedule.scheduleJobName
+  name: guid(jobschedule.scheduleJobName)
   properties: {
     runbook: {
       name: jobschedule.runbookName

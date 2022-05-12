@@ -92,10 +92,10 @@ $folderNameWorld = "Bedrock level"
 
 * Fork this repository
 
-* Generate a Service Principal
+* Generate a Service Principal (role Owner is needed to be able to do the role assignment)
 
 ```ps1
-az ad sp create-for-rbac -n <name_sp> --role Contributor --sdk-auth --scopes /subscriptions/<subscription_id>
+az ad sp create-for-rbac -n <name_sp> --role Owner --sdk-auth --scopes /subscriptions/<subscription_id>
 ```
 
 Copy the json output of this command.
