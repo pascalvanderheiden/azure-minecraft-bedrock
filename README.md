@@ -150,3 +150,15 @@ Now replace all the files in the Bedrock level folder of this repo with the new 
 
 Commit the changes and the GitHub Action Release pipeline will deploy it automatically to your server.
 Or just run the manual deployment script again, and it will release the new world to the server as well.
+
+## Connect to the Minecraft Server from a console
+
+You can connect to the Bedrock Server on a Windows version of Minecraft relatively easy. But for a console, you need to proxy it to a local LAN server, in order to be able to connect to it.
+
+![azure-minecraft-bedrock](docs/images/bedrocktogether.png)
+
+Bedrock Together does this for you. Just fill in the ip address of the Azure Container Instance, and it will popup in Minecraft under the Friends Tab as a local server.
+
+![azure-minecraft-bedrock](docs/images/minecraft_lan.png)
+
+Keep in mind that the ip address will change after a restart. I gave my son access to the Azure Portal, with read rights on the Azure Container Instance, so he could see the ip address. You could also create a Logic App for starting and stopping the Azure Container Instance instead of the Automation Account Runbooks, where you can email or sms the ip after restart.
