@@ -155,9 +155,11 @@ Or just run the manual deployment script again, and it will release the new worl
 
 You can connect to the Bedrock Server on a Windows version of Minecraft relatively easy. But for a console, you need to proxy it to a local LAN server, in order to be able to connect to it.
 
+Bedrock Together does this for you.
+
 ![azure-minecraft-bedrock](docs/images/bedrocktogether.png)
 
-Bedrock Together does this for you. Just fill in the ip address of the Azure Container Instance, and it will popup in Minecraft under the Friends Tab as a local server.
+Just fill in the ip address of the Azure Container Instance, and it will popup in Minecraft under the Friends Tab as a local server.
 
 ![azure-minecraft-bedrock](docs/images/minecraft_lan.png)
 
