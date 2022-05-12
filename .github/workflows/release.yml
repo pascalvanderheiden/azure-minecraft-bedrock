@@ -4,10 +4,8 @@ env:
   # folderNameWorld: ${{ github.event.inputs.folderNameWorld }}
   resourceGroup: '${{ secrets.PREFIX }}-rg'
   aciName: '${{ secrets.PREFIX }}-aci'
-  fileShare: '${{ secrets.PREFIX }}-share'
-  folderNameWorld: 'Bedrock level'
-  customWorldPath: '.\deploy\release\worlds\${{ env.folderNameWorld }}'
-  fileSharePathWorlds: '${{ env.fileShare }}/worlds/Bedrock Level'
+  customWorldPath: '.\deploy\release\worlds\Bedrock level'
+  fileSharePathWorlds: '${{ secrets.PREFIX }}-share/worlds/Bedrock Level'
 
 on:
   # Only trigger, when a new world has been pushed
