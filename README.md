@@ -126,11 +126,11 @@ Important note is that the default server.properties of the Bedrock server are a
 
 Install and open Worldpainter. Create your world and export it.
 
-![azure-minecraft-bedrock](docs/images/worldpainter_export1.png)
+![azure-minecraft-bedrock](docs/images/worldpainter_export_1.png)
 
 Choose how you want to export it.
 
-![azure-minecraft-bedrock](docs/images/worldpainter_export2.png)
+![azure-minecraft-bedrock](docs/images/worldpainter_export_2.png)
 
 And choose Export.
 
