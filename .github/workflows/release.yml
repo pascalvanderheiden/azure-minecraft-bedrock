@@ -14,7 +14,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - release/worlds/**
+      - deploy/release/worlds/**
 
   # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
