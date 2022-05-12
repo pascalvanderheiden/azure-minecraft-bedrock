@@ -34,6 +34,7 @@ Next to the Azure Container Instance for the Bedrock Server and the Azure Storag
 ## Prerequisites
 
 * Install [Visual Studio Code](https://code.visualstudio.com/download)
+* Install [Java runtime](https://www.oracle.com/java/technologies/downloads/), needed for WorldPainter
 * Install [WorldPainter](https://www.worldpainter.net/), is optional, only if you want to create custom worlds.
 * Install [je2be](https://apps.microsoft.com/store/detail/je2be/9PC9MFX9QCXS?hl=en-ca&gl=CA), also optional.
 * Install Bedrock Together for [iOS](https://apps.apple.com/us/app/bedrocktogether/id1534593376) and [Android](https://play.google.com/store/apps/details?id=pl.extollite.bedrocktogetherapp&hl=en_US&gl=US)
@@ -62,6 +63,8 @@ Install-Module -Name Az -AllowClobber -Scope CurrentUser
 ```ps1
 git clone https://github.com/pascalvanderheiden/azure-minecraft-bedrock.git
 ```
+
+* Open the folder with Visual Studio Code, and execute commands more easily via the integrated terminal
 
 * Deploy it all by one script
 
@@ -114,3 +117,36 @@ The following secrets need to be created:
 
 ### Trigger
 You can trigger the Build Pipeline from the Actions tab in GitHub. The Release Pipeline is automatically triggered when a updated is made to the release/worlds folder.
+
+## Customize & upload a new world
+
+Important note is that the default server.properties of the Bedrock server are already pointing to the Bedrock level world. Because we can't run multiple worlds in one server, the most easy way to update is to release all files in the current Bedrock Level folder. You can upload backups to the storage account of course, but the server isn't aware of it.
+
+* Create a new world in WorldPainter
+
+Install and open Worldpainter. Create your world and export it.
+
+![azure-minecraft-bedrock](docs/images/worldpainter_export1.png)
+
+Choose how you want to export it.
+
+![azure-minecraft-bedrock](docs/images/worldpainter_export2.png)
+
+And choose Export.
+
+* Convert the export to Bedrock with je2be
+
+Install and open je2be.
+
+![azure-minecraft-bedrock](docs/images/je2be_convert_1.png)
+
+Pick Java to Bedrock. Point to the folder where you exported your world. And start converting.
+
+![azure-minecraft-bedrock](docs/images/je2be_convert_2.png)
+
+And now save it into an empty custom folder.
+
+Now replace all the files in the Bedrock level folder of this repo with the new files.
+
+Commit the changes and the GitHub Action Release pipeline will deploy it automatically to your server.
+Or just run the manual deployment script again, and it will release the new world to the server as well.
