@@ -13,6 +13,8 @@ param endTime string
 param gameMode string
 param gameDifficulty string
 param gameAllowCheats string
+param scheduleJobNameStart string = newGuid()
+param scheduleJobNameStop string = newGuid()
 
 var resourceGroup = '${namePrefix}-rg'
 var aciName = '${namePrefix}-aci'
@@ -82,14 +84,14 @@ module autoAccModule '../build/automation.bicep' = {
     ]    
     jobschedules: [
       {
-        scheduleJobName: 'start-aci-schedule'
+        scheduleJobName: scheduleJobNameStart
         runbookName: 'Start-ACI'
         scheduleName: 'start-aci-schedule'
         resourceGroup: resourceGroup
         aciName: aciName
       }
       {
-        scheduleJobName: 'stop-aci-schedule'
+        scheduleJobName: scheduleJobNameStop
         runbookName: 'Stop-ACI'
         scheduleName: 'stop-aci-schedule'
         resourceGroup: resourceGroup
