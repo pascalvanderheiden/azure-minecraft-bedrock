@@ -95,7 +95,7 @@ resource schedule 'Microsoft.Automation/automationAccounts/schedules@2020-01-13-
   name: schedule.scheduleName
   properties: {
     frequency: 'Day'
-    interval: 1
+    interval: '1'
     startTime: schedule.startTime
     timeZone: schedule.timeZone
   }
