@@ -42,6 +42,14 @@ jobs:
           inlineScript: |
             Set-AzContext -Subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azPSVersion: "latest"
+      
+      # VALIDATE BICEP
+      - name: 'Set context to subscription'
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            az bicep build --file '${{ env.buildBicepPath }}'
+          azPSVersion: "latest"
 
       # DEPLOY THE SERVICES
       - name: 'Create / Update Azure resources'
