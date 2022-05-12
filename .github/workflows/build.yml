@@ -44,7 +44,7 @@ jobs:
           azPSVersion: "latest"
       
       # VALIDATE BICEP
-      - name: 'Set context to subscription'
+      - name: 'Validate Bicep template'
         uses: azure/powershell@v1
         with:
           inlineScript: |
@@ -56,7 +56,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            New-AzSubscriptionDeployment -name '${{ env.deploymentNameBuild }}' -namePrefix '${{ secrets.PREFIX }}' -location '${{ secrets.LOCATION }}' -timeZone '${{ env.timeZone }}' -startTime '${{ env.startTime }}' -endTime '${{ env.endTime }}' -gameMode '${{ env.gameMode }}' -gameDifficulty '${{ env.gameDifficulty }}' -gameAllowCheats '${{ env.gameAllowCheats }}' -TemplateFile '${{ env.buildBicepPath }}'
+            New-AzSubscriptionDeployment -name '${{ env.deploymentNameBuild }}' -namePrefix '${{ secrets.PREFIX }}' -location '${{ secrets.LOCATION }}' -timeZone '${{ env.timeZone }}' -startTime '${{ env.startTime }}' -endTime '${{ env.endTime }}' -gameMode '${{ env.gameMode }}' -gameDifficulty '${{ env.gameDifficulty }}' -gameAllowCheats '${{ env.gameAllowCheats }}' -TemplateFile '${{ env.buildBicepPath }}' -debug
           azPSVersion: "latest"
 
       # LOGOUT
