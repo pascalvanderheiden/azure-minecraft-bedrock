@@ -5,7 +5,7 @@ env:
   resourceGroup: '${{ secrets.PREFIX }}-rg'
   aciName: '${{ secrets.PREFIX }}-aci'
   customWorldPath: '.\deploy\release\worlds\Bedrock level'
-  fileSharePathWorlds: '${{ secrets.PREFIX }}-share/worlds/Bedrock Level'
+  fileSharePathWorlds: '${{ secrets.PREFIX }}-share/worlds/Bedrock level'
 
 on:
   # Only trigger, when a new world has been pushed
